@@ -1,0 +1,192 @@
+@use 'sass:color';
+
+$color-primario: #1a3c5e;
+$color-secundario: #d4a017;
+$color-fondo: #f5f7fa;
+$color-texto: #2d2d2d;
+$color-borde: #e0e4e8;
+$color-acento: #4a90e2;
+$espaciado-base: 1.2rem;
+$radio-borde: 10px;
+$transicion-base: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+@mixin sombra-elevacion($nivel: 1) {
+  @if $nivel == 1 {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  } @else if $nivel == 2 {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  } @else {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@mixin gradiente-fondo {
+  background: linear-gradient(135deg, $color-primario 0%, color.scale($color-primario, $lightness: 20%) 100%);
+}
+
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.leyes-seguridad-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: $espaciado-base * 2;
+  background-color: $color-fondo;
+  border-radius: $radio-borde;
+  @include sombra-elevacion(2);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    @include gradiente-fondo;
+  }
+}
+
+.leyes-seguridad-titulo {
+  color: $color-primario;
+  font-family: 'Roboto Slab', serif;
+  font-size: 2rem;
+  margin-bottom: $espaciado-base * 2;
+  text-align: center;
+  font-weight: 700;
+  position: relative;
+  letter-spacing: 0.5px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: $color-secundario;
+    border-radius: 2px;
+  }
+}
+
+.leyes-seguridad-acordeon {
+  display: flex;
+  flex-direction: column;
+  gap: $espaciado-base * 1.5;
+}
+
+.categoria-ley {
+  border: none;
+  border-radius: $radio-borde;
+  background-color: white;
+  @include sombra-elevacion(1);
+  transition: $transicion-base;
+  
+  &:hover {
+    @include sombra-elevacion(2);
+    transform: translateY(-2px);
+  }
+}
+
+.categoria-ley-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $espaciado-base * 1.2;
+  background-color: white;
+  cursor: pointer;
+  border-radius: $radio-borde $radio-borde 0 0;
+  transition: $transicion-base;
+  
+  &:hover {
+    background-color: color.scale($color-acento, $lightness: 90%);
+  }
+  
+  &.expandido {
+    background-color: color.scale($color-acento, $lightness: 80%);
+    border-bottom: 1px solid $color-borde;
+    border-radius: $radio-borde $radio-borde 0 0;
+    
+    .categoria-ley-icono {
+      color: $color-secundario;
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.categoria-ley-titulo {
+  margin: 0;
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: $color-primario;
+  letter-spacing: 0.2px;
+}
+
+.categoria-ley-icono {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: $color-acento;
+  transition: $transicion-base;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: rgba($color-acento, 0.1);
+}
+
+.categoria-ley-contenido {
+  background-color: white;
+  padding: $espaciado-base $espaciado-base * 1.5;
+  border-radius: 0 0 $radio-borde $radio-borde;
+}
+
+.categoria-ley-descripcion {
+  margin: 0 0 $espaciado-base 0;
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.7;
+  color: $color-texto;
+  font-size: 1.1rem;
+}
+
+.categoria-ley-detalles {
+  margin-top: $espaciado-base;
+  padding-top: $espaciado-base;
+  border-top: 1px dashed color.scale($color-borde, $lightness: -5%);
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .detalle-item {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    color: $color-texto;
+    line-height: 1.6;
+
+    &::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: $color-acento;
+      font-size: 1.2rem;
+    }
+  }
+
+  .sin-detalles {
+    font-style: italic;
+    color: color.scale($color-texto, $lightness: 30%);
+    margin: 0;
+  }
+}

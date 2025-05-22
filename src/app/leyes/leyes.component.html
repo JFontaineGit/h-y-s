@@ -1,0 +1,41 @@
+<div class="leyes-seguridad-container">
+  <h2 class="leyes-seguridad-titulo">Leyes de Higiene y Seguridad</h2>
+  
+  <div class="leyes-seguridad-acordeon">
+    <div 
+      class="categoria-ley" 
+      *ngFor="let categoria of categoriasLeyes()"
+    >
+      <div 
+        class="categoria-ley-cabecera" 
+        [class.expandido]="categoria.expandido"
+        (click)="toggleCategoria(categoria.id)"
+      >
+        <h3 class="categoria-ley-titulo">{{ categoria.titulo }}</h3>
+        <span class="categoria-ley-icono">
+          {{ categoria.expandido ? '−' : '+' }}
+        </span>
+      </div>
+      
+      <div 
+        class="categoria-ley-contenido"
+        [@expandirContraer]="obtenerEstadoAnimacion(categoria.expandido)"
+      >
+        <p class="categoria-ley-descripcion">
+          {{ categoria.descripcion }}
+        </p>
+        
+        <div class="categoria-ley-detalles">
+          <ul *ngIf="categoria.detalles?.length">
+            <li *ngFor="let detalle of categoria.detalles" class="detalle-item">
+              {{ detalle }}
+            </li>
+          </ul>
+          <p *ngIf="!categoria.detalles?.length" class="sin-detalles">
+            No hay detalles adicionales disponibles.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
